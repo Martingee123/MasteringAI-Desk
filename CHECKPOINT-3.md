@@ -1,8 +1,7 @@
 # Checkpoint 3 · Team proposal draft
 
-**Team** — Martin, Jose, and Francesco. Team name and Purdue IDs pending.
-
-**Client** — An investor. The team still needs to agree on the investment objective and approach.
+**Team** — Martin - 0033318978, Jose, and Francesco. Team MJF
+**Client** — Our client is a long-term equity investor seeking positive returns through disciplined stock selection. The desk helps the client identify U.S. companies trading below a conservative estimate of fair value, including overlooked spinoffs. It uses SEC filings to assess whether cash flow can support that valuation, flags risks that could undermine it, and shows which evidence would change the investment view.
 
 ## Desk design
 
