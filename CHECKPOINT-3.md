@@ -6,7 +6,7 @@
 
 ## Desk design
 
-Implemented team design, integrated from completed Lab 08 baseline `edc4f08c778fda6617959e41a8064fd0f300f0f7`. Final offline validation: 580 complete tests passed. External network access was blocked. Both assigned partner-company One Desk runs are complete; filing checks and the AMD evaluation are recorded below. PANW's live run is complete; commit time and permalink await the final commit, and window eligibility is not established.
+Implemented team design, integrated from completed Lab 08 baseline `edc4f08c778fda6617959e41a8064fd0f300f0f7`. Final offline validation: 580 complete tests passed. External network access was blocked. Both assigned partner-company One Desk runs are complete; filing checks and the AMD evaluation are recorded below. PANW's live run is complete; the published Team MJF Lab 09 commit time and permalink are recorded below, and window eligibility is not established.
 
 Fixed orchestration: **Seeker -> Selection -> Agent team -> Worksheet -> Numeric hook -> Final report**. No model chooses the execution order. The seeker is skipped for ticker mode.
 
@@ -82,7 +82,7 @@ The minimum review subset preserves original file bytes and filing line numberin
 
 | Company | Ticker | Responsible member | Earnings release / 8-K | EDGAR accepted time | Original frozen view | Desk completion | Commit time | Inside the window | Repository permalink |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Palo Alto Networks | PANW | Francesco | November 18, 2026; fiscal Q1 2027 ended October 31, 2026; 0001327567-26-000030 | 2026-11-18 16:37:04 Eastern | 2026-11-22T21:42:46.511055+00:00 (16:42:46.511055 Eastern) | Complete; exact completion timestamp not recorded | PENDING FINAL COMMIT | NOT ESTABLISHED | PENDING FINAL COMMIT |
+| Palo Alto Networks | PANW | Francesco | November 18, 2026; fiscal Q1 2027 ended October 31, 2026; 0001327567-26-000030 | 2026-11-18 16:37:04 Eastern | 2026-11-22T21:42:46.511055+00:00 (16:42:46.511055 Eastern) | Complete; exact completion timestamp not recorded | 2026-11-22 17:16:01 Eastern | NOT ESTABLISHED | https://github.com/Martingee123/MasteringAI-Desk/blob/1b9d3113aa6d4911faee11b74960235b8820acb5/CHECKPOINT-3.md |
 
 Saved evidence: [final desk report](evidence/lab09/PANW/desk_report.md), [completed manifest](evidence/lab09/PANW/desk_manifest.json), [verified report](evidence/lab09/PANW/verified_report.md), [final worksheet](evidence/lab09/PANW/spinoff_worksheet_20261122_164308_061762_2a308f0d.md), [frozen view](evidence/lab09/PANW/view.json), [accepted-time metadata](evidence/lab09/PANW/filing_time.json), [earnings release](evidence/lab09/PANW/earnings_release.txt), and [8-K](evidence/lab09/PANW/8-K.txt). Original final-report path: `runs/live/PANW_2026-11-22_16-40-43_157876/desk_report.md`.
 
@@ -128,4 +128,4 @@ Both values were already absent from `verified_report.md`. Final assembly preser
 
 ### Remaining Checkpoint 3 evidence
 
-Only PANW's commit time and repository permalink are PENDING FINAL COMMIT. Inside-window eligibility is NOT ESTABLISHED, and an exact final completion timestamp was not recorded; neither is invented or presented as a pending run. A separate full NVDA comparison is not included here; the completed 13-row evaluation above is for AMD, with a saved-filing core-claim check for each assigned company.
+The recorded commit time and permalink identify commit `1b9d3113aa6d4911faee11b74960235b8820acb5`, which first published the completed Team MJF Lab 09 implementation and evidence. They identify that committed repository state, not this later documentation-only update. Inside-window eligibility remains NOT ESTABLISHED, and an exact final completion timestamp was not recorded; neither is invented or presented as a pending run. A separate full NVDA comparison is not included here; the completed 13-row evaluation above is for AMD, with a saved-filing core-claim check for each assigned company.
