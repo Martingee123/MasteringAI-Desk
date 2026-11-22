@@ -1,6 +1,6 @@
-# Team MJF - FIN 67110 Lab 09 / Checkpoint 3
+# Team 9 - FIN 67110 Lab 09 / Checkpoint 3
 
-Martin, Jose, and Francesco serve a long-term equity investor seeking companies below conservative fair value, including overlooked spinoffs. SEC filing evidence supports valuation, risks, and what would change the investment view.
+Team 9 members Francesco Boscolo Sale, Martin Gee, and Jose Antonio Jijon serve a long-term equity investor seeking companies below conservative fair value, including overlooked spinoffs. SEC filing evidence supports valuation, risks, and what would change the investment view.
 
 ## What we own
 
@@ -8,9 +8,9 @@ The team owns the factor check: factors, directions, and weights are fixed in `s
 
 ## Roles
 
-- **Francesco - One Desk & Orchestration Lead:** joined pipeline, agent team, fixed execution order, replay, and final-report integration.
-- **Martin - Evaluation & Proposal Lead:** three-column comparison, desk diagram, Checkpoint 3 documentation, and evaluation of what the join changed.
-- **Jose - Skills & Evidence Lead:** seeker, worksheet, numeric guard, and filing/source verification.
+- **Francesco Boscolo Sale - One Desk & Orchestration Lead:** joined pipeline, agent team, fixed execution order, replay, and final-report integration.
+- **Martin Gee - Evaluation & Proposal Lead:** three-column comparison, desk diagram, Checkpoint 3 documentation, and evaluation of what the join changed.
+- **Jose Antonio Jijon - Skills & Evidence Lead:** seeker, worksheet, numeric guard, and filing/source verification.
 
 ## Architecture and joins
 
@@ -71,7 +71,7 @@ Another team assigned NVIDIA (NVDA) and Advanced Micro Devices (AMD). Both One D
 
 The review subset preserves copied file bytes and filing line numbering. It excludes model requests/responses, download caches, and full run folders. It is for inspection; full saved runs are required for replay or continuation.
 
-**Team MJF live company: Palo Alto Networks (PANW). Responsible member: Francesco.** This is separate from the two partner-assigned evaluation companies. PANW's saved One Desk run is complete: [final report](evidence/lab09/PANW/desk_report.md), [completed manifest](evidence/lab09/PANW/desk_manifest.json), [verified team report](evidence/lab09/PANW/verified_report.md), and [final worksheet](evidence/lab09/PANW/spinoff_worksheet_20261122_164308_061762_2a308f0d.md).
+**Team 9 live company: Palo Alto Networks (PANW). Responsible member: Francesco Boscolo Sale.** This is separate from the two partner-assigned evaluation companies. PANW's saved One Desk run is complete: [final report](evidence/lab09/PANW/desk_report.md), [completed manifest](evidence/lab09/PANW/desk_manifest.json), [verified team report](evidence/lab09/PANW/verified_report.md), and [final worksheet](evidence/lab09/PANW/spinoff_worksheet_20261122_164308_061762_2a308f0d.md).
 
 The [saved earnings release](evidence/lab09/PANW/earnings_release.txt), line 7, records November 18, 2026 and fiscal Q1 2027 ended October 31, 2026. The [saved 8-K](evidence/lab09/PANW/8-K.txt), lines 37–39, links that release to Item 2.02 / Exhibit 99.1. Accession **0001327567-26-000030** was accepted **2026-11-18 16:37:04 Eastern**, per [filing_time.json](evidence/lab09/PANW/filing_time.json). The [frozen view](evidence/lab09/PANW/view.json) was recorded **2026-11-22T21:42:46.511055+00:00**, or **16:42:46.511055 Eastern**. This view was recorded after the release; no pre-release or inside-window claim is made.
 
@@ -81,6 +81,6 @@ The original final report is `runs/live/PANW_2026-11-22_16-40-43_157876/desk_rep
 
 **Final offline validation: 580 complete tests passed.** External network access was blocked. NVDA/AMD runs and filing checks, the AMD comparison, and PANW's live run are complete. PANW's live record awaits only the final commit time and permalink; window eligibility remains NOT ESTABLISHED.
 
-Martin's earlier individual documentation is preserved in [Checkpoint 2 historical README](CHECKPOINT-2-HISTORICAL.md). Its commands and status belong to that historical implementation. The active team entry point is `one_desk.py`; Martin's `desk.py` remains preserved.
+Martin Gee's earlier individual documentation is preserved in [Checkpoint 2 historical README](CHECKPOINT-2-HISTORICAL.md). Its commands and status belong to that historical implementation. The active team entry point is `one_desk.py`.
 
 This is a learning exercise, not financial advice. AI assistance: OpenAI Codex. The saved-evidence checks and AMD evaluation above are documented; no human sign-off is asserted.
