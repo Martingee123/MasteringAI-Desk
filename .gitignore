@@ -1,0 +1,36 @@
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Editor settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated research downloads and Python bytecode
+research_data/
+__pycache__/
+.crewai/
+
+# Generated seeker runtime data; completed Markdown reports remain committable
+spinoff_runs/evidence/
+spinoff_runs/extraction_cache/
+spinoff_runs/logs/
+spinoff_runs/registry.json
+spinoff_runs/*.lock
+spinoff_runs/*.tmp
+runs/

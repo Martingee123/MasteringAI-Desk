@@ -1,133 +1,86 @@
-# Checkpoint 2 equity research desk
+# Team MJF - FIN 67110 Lab 09 / Checkpoint 3
 
-This folder contains a LangGraph agent-team implementation and a working offline review page for FIN 67110. The user requested offline completion on November 6, 2026 because API access was unavailable.
+Martin, Jose, and Francesco serve a long-term equity investor seeking companies below conservative fair value, including overlooked spinoffs. SEC filing evidence supports valuation, risks, and what would change the investment view.
 
-**Status: offline work is complete. The graded model-backed proof is not complete.** No four-role model run or semantic verifier run is claimed. OpenAI returned insufficient credits during the connection check; no further API calls were made after the user requested offline work. Anthropic support is implemented but has not been tested against its API.
+## What we own
 
-## Open the page
+The team owns the factor check: factors, directions, and weights are fixed in `spinoff_factors.txt` before returns are observed. `factor_check.py` reports the number of valid comparisons actually made; sparse observations do not establish statistical significance.
 
-From this folder:
+## Roles
+
+- **Francesco - One Desk & Orchestration Lead:** joined pipeline, agent team, fixed execution order, replay, and final-report integration.
+- **Martin - Evaluation & Proposal Lead:** three-column comparison, desk diagram, Checkpoint 3 documentation, and evaluation of what the join changed.
+- **Jose - Skills & Evidence Lead:** seeker, worksheet, numeric guard, and filing/source verification.
+
+## Architecture and joins
+
+`one_desk.py` coordinates the existing Python components and CrewAI Flow in a fixed order:
+
+```text
+Seeker -> Selection -> Agent team -> Worksheet -> Numeric hook -> Final report
+```
+
+No model chooses the execution order. The seeker runs as a pipeline step in screen mode; ticker mode enters at Selection. The agent team performs the seven data steps, Research Analyst, Financial Analyst, Investment Advisor, Strategy Manager, and mandatory Verifier.
+
+The worksheet join is **PIPELINE**: the team saves filing evidence in the shared run folder, then the worksheet reads those saved files. Python assembles the verified team report and the worksheet's final View and Conviction section. The numeric hook checks the saved team report, worksheet skill output, and assembled final report before completion. A role may quote a skill output file with attribution but must not recompute its numbers.
+
+See [Checkpoint 3](CHECKPOINT-3.md) for the file-boundary diagram, completed AMD evaluation, partner filing checks, and PANW live record awaiting the final commit.
+
+## Installation and local configuration
+
+Use Python 3.10 through 3.13 and the dependencies in `requirements.txt`, including CrewAI 1.15.34. The current Python 3.13 environment already passed offline validation. For a new environment, install with:
 
 ```sh
-.venv/bin/python -m streamlit run app.py --server.address 127.0.0.1 --browser.gatherUsageStats false
+python -m pip install -r requirements.txt
 ```
 
-Open **http://localhost:8501**. The default mode is **Saved report review (offline)**. Choose KO or COST and press **Run offline checks**. The page displays the core numerical marks, the saved fallback report, and the supplied-price scenario. A new folder is created for each review. This mode makes no API calls.
+Configure a private, ignored local `.env` for real runs using these variable names only:
 
-On this Mac, you can also double-click `launch.command` in Finder to start the page. Once it is running, the reviewer uses the browser.
+- `API_KEY` - Purdue model access.
+- `SEC_USER_AGENT` - SEC identification.
+- `CLOSES_FILE` - optional workbook path for price/liquidity evidence.
 
-## Install
+Never commit credentials. Missing export data leaves affected price, valuation comparisons, and liquidity evidence unavailable or not computed. A usable export needs Instrument, Date, and Price Close columns, plus Volume and Currency for the corresponding evidence.
 
-Python 3.11 or later is required. On the current Mac, the parent course environment has Python 3.12, whereas the system `python3` is 3.9. Use:
+## Main commands
+
+Run from the repository root. Ticker and screen commands require live SEC/model access; offline tests use fictional inputs and mocks.
 
 ```sh
-cd "/Users/martingee/Documents/Courses/MasteringAIFinance2026/checkpoint-2"
-../.venv/bin/python -m venv .venv
-.venv/bin/python -m pip install -r requirements-lock.txt
+python -B -u one_desk.py TICKER
+python -B -u one_desk.py screen
+python -B -u one_desk.py --replay "runs/desk/SAVED_DESK_FOLDER"
+python -B -u one_desk.py --continue "runs/desk/SAVED_PARTIAL_DESK_RUN"
+python -B -u one_desk.py --finalize "runs/live/SAVED_PARTIAL_DESK_RUN"
 ```
 
-On another machine, create `.venv` with its Python 3.11+ interpreter. `requirements-lock.txt` records the tested dependency versions. `requirements.txt` holds the allowed dependency ranges.
+Screen defaults to a 90-calendar-day distribution cutoff. Each execution uses one shared folder, by default under `runs/desk/<TICKER>_<timestamp>/`; `--output-root "runs/live"` selects the live-run root. The completed final report is `desk_report.md`, alongside `verified_report.md`, the timestamped worksheet Markdown/evidence JSON, `view.json`, and `desk_manifest.json`. Full generated runs remain local; minimum Lab 09 review evidence is preserved under `evidence/lab09/`.
 
-## What is implemented
+Replay uses only the completed run's saved evidence and must not fetch missing evidence. It validates hashes, reruns saved-evidence checks, and requires byte-identical final-report composition. Missing or changed evidence fails; replay makes no SEC/model calls and does not read the live workbook.
 
-The seven SEC data steps remain in `sec_data.py`. They resolve a ticker, select filings, save documents and numbered text, select annual facts, calculate ratios, identify quarterly source lines, and compare peers. The steps run in code, without a model. The public team command has no flag to bypass its Verifier.
+Continuation is only for a partially completed original desk run with successfully completed team verification and validated saved verification provenance. It validates prerequisites, then runs Worksheet -> Numeric hook -> Final report, without repeating data collection, analysts, Manager, or semantic verification. Missing or mismatched prerequisites stop continuation before the worksheet model call. Continuation can make the worksheet's judgment model call; the minimum review subset is not a replay or continuation bundle.
 
-```mermaid
-flowchart LR
-    S[Seven data steps] --> R[Research Analyst]
-    R --> F[Financial Analyst]
-    F --> A[Investment Advisor]
-    A --> M[Strategy Manager]
-    M --> X[One repair slot]
-    X --> C[Compile slot]
-    C --> V[Verifier]
-    V --> E[Saved report and marks]
-```
+Finalization is for an original run whose verified team report and existing worksheet both have valid saved provenance. Its fixed order is Validate saved team/verification evidence -> Validate existing worksheet provenance -> Numeric hook -> Final report. It reuses the exact saved worksheet without network/model calls or regeneration. Missing or changed provenance fails closed. The review subset is not sufficient to execute this mode.
 
-The order is fixed by LangGraph edges. The repair slot visits owners in the same fixed order and calls only those with failing content. It never calls an analyst more than twice. The Manager gets at most two calls. No model chooses the next graph node. Initial roles each use one model call; a Financial Analyst calculation request is evaluated in Python without an additional model call.
+## Partner review evidence and selected live release
 
-Each analyst receives only its assigned JSON task, context and expected output. The Research Analyst receives selected annual text, the release and filing metadata. The Financial Analyst receives facts, ratios, peers and the release. The Investment Advisor receives only the other two analyses. The Manager receives the analyses and the release opening for its Insight check.
+Another team assigned NVIDIA (NVDA) and Advanced Micro Devices (AMD). Both One Desk runs are complete:
 
-The Verifier receives only the compiled report, saved filing text and saved facts. It receives no analyst personas or intermediate analyses. Code checks exact tag/period facts, quoted source text with whitespace tolerance, numerical tokens and arithmetic. The model checks the cited period, definition and meaning. Unsourced claims are unsupported. The model extracts claims, so extraction coverage and semantic judgments remain fallible. Human review is necessary. The thesis itself is excluded, while factual numbers used by the thesis remain subject to checks. An omitted required claim and the quality of an investment thesis require human judgment.
+- NVIDIA: [final report](evidence/lab09/NVDA/desk_report.md), [manifest](evidence/lab09/NVDA/desk_manifest.json), and [saved 10-K](evidence/lab09/NVDA/10-K.txt). The FY2026 revenue filing check passed: $215.938 billion, `10-K.txt`, lines 915–920.
+- AMD: [final report](evidence/lab09/AMD/desk_report.md), [manifest](evidence/lab09/AMD/desk_manifest.json), and the component/filing evidence linked in [Checkpoint 3](CHECKPOINT-3.md). The Q3 2026 revenue filing check passed: $13.377 billion, `earnings_release.txt`, lines 19–22 and 138–142. The 13-row AMD three-column evaluation is complete, including two EPS coverage omissions already present before final assembly.
 
-The Manager checks all five sections, consistency, and three sourced Insight lines. It rejects an insight that merely restates a figure in the release's opening paragraph. Its semantic checks have not been live-tested. Final structure results and bounded call counts are saved.
+The review subset preserves copied file bytes and filing line numbering. It excludes model requests/responses, download caches, and full run folders. It is for inspection; full saved runs are required for replay or continuation.
 
-## Personas
+**Team MJF live company: Palo Alto Networks (PANW). Responsible member: Francesco.** This is separate from the two partner-assigned evaluation companies. PANW's saved One Desk run is complete: [final report](evidence/lab09/PANW/desk_report.md), [completed manifest](evidence/lab09/PANW/desk_manifest.json), [verified team report](evidence/lab09/PANW/verified_report.md), and [final worksheet](evidence/lab09/PANW/spinoff_worksheet_20261122_164308_061762_2a308f0d.md).
 
-The three analyst files in `roles/` were extracted from the supplied Word document. Their wording is preserved. The Manager file is a software checklist.
+The [saved earnings release](evidence/lab09/PANW/earnings_release.txt), line 7, records November 18, 2026 and fiscal Q1 2027 ended October 31, 2026. The [saved 8-K](evidence/lab09/PANW/8-K.txt), lines 37–39, links that release to Item 2.02 / Exhibit 99.1. Accession **0001327567-26-000030** was accepted **2026-11-18 16:37:04 Eastern**, per [filing_time.json](evidence/lab09/PANW/filing_time.json). The [frozen view](evidence/lab09/PANW/view.json) was recorded **2026-11-22T21:42:46.511055+00:00**, or **16:42:46.511055 Eastern**. This view was recorded after the release; no pre-release or inside-window claim is made.
 
-The Investment Advisor's final sentence still reads `Finish with one [original sentence incomplete].` The shared program contract requires its final sourced Insight line. **The student must finish that persona sentence in their own words.** The course says the student writes the personas; no human authorship or verification is certified here.
+The original final report is `runs/live/PANW_2026-11-22_16-40-43_157876/desk_report.md`. The saved manifest establishes successful numeric checking and finalization, but records no final completion timestamp; its command-start time is not a completion time. Commit time and permalink are **PENDING FINAL COMMIT**. Inside-window status is **NOT ESTABLISHED** because no explicit applicable Lab 09 commit window is established by the locally available rules.
 
-## Offline evidence
+## Validation and pending work
 
-See `OFFLINE-RESULTS.md` and `offline-proof-results.json` for links and marks. The clean Costco core table has 11 code-correct claims. The seeded annual EPS is changed from $20.76 to $21.76 and marked wrong. The invented annual revenue-growth rate is 14.14%, four percentage points above the unrounded calculated rate of 10.1436953876%, and is marked wrong.
+**Final offline validation: 580 complete tests passed.** External network access was blocked. NVDA/AMD runs and filing checks, the AMD comparison, and PANW's live run are complete. PANW's live record awaits only the final commit time and permalink; window eligibility remains NOT ESTABLISHED.
 
-These are **code-only numerical checks**, not a completed model-backed verifier test. The offline reader handles the existing Checkpoint 1 core-table layouts and the prepared growth sentence. It does not audit every narrative number, peer number, or definition. It does not create fresh analyst outputs or three new insights. The full Verifier is broader but awaits live validation.
+Martin's earlier individual documentation is preserved in [Checkpoint 2 historical README](CHECKPOINT-2-HISTORICAL.md). Its commands and status belong to that historical implementation. The active team entry point is `one_desk.py`; Martin's `desk.py` remains preserved.
 
-Offline commands, with no API calls:
-
-```sh
-.venv/bin/python -m unittest -v test_graph.py test_verifier.py test_offline.py
-.venv/bin/python offline_audit.py runs/COST_20261106T064700465418Z_sources
-.venv/bin/python offline_audit.py runs/KO_20261106T064702564917Z_sources
-```
-
-## Prices and source periods
-
-The supplied November 5, 2026 closes are COST $1,065.59 and KO $95.73, both attributed by the user to Yahoo Finance. These prices have **not** been independently checked. They are later than the saved releases, so they do not reproduce the lab's price-before-release convention. The saved data are the October 29 Checkpoint 1 source sets; importing or replaying them is not a fresh SEC retrieval. KO's saved release was filed October 27, rather than in November. The user explicitly selected KO again.
-
-The offline scenario calculates supplied price / annual GAAP diluted EPS. This is not a current trailing-four-quarter P/E and does not revise the historical fallback recommendation. Source imports and prices are recorded in each source set's `source-provenance.json` and `bundle.json`.
-
-## Resume live work later
-
-Do not run these commands until API access and credits are available and live work is authorized again.
-
-Keep credentials in `/Users/martingee/Documents/Courses/MasteringAIFinance2026/.env`, or a local `checkpoint-2/.env`. `API_KEY` or `OPENAI_API_KEY` is used for OpenAI; `ANTHROPIC_API_KEY` is used for Anthropic. Keys are never written into node payloads. Both `.env` locations are ignored by Git. Financial Datasets uses `FINANCIAL_DATASETS_API_KEY`. Its key passed a one-record KO income-statement access test (HTTP 200). It supplies financial data, not analyst or semantic-verifier model calls; it is not yet wired into the desk. No financial-data API response was substituted for the saved SEC sources.
-
-Run the whole team on the saved source sets, still executing every analyst and the mandatory Verifier:
-
-```sh
-.venv/bin/python desk.py COST --peers WMT,TGT,BJ --price 1065.59 --price-date 2026-11-05 --price-source "Yahoo Finance; user supplied" --source-run runs/COST_20261106T064700465418Z_sources --provider anthropic
-.venv/bin/python desk.py KO --peers PEP,KDP --price 95.73 --price-date 2026-11-05 --price-source "Yahoo Finance; user supplied" --source-run runs/KO_20261106T064702564917Z_sources --provider anthropic
-```
-
-For fresh SEC filings, omit `--source-run`. No ticker or company name is hard-coded in the runtime program. OpenAI remains available with `--provider openai`. The model can be set explicitly with `--model`; the implemented defaults are `gpt-4.1` and `claude-sonnet-4-6`. Availability, credits and current provider limits need to be checked at the time of the live run.
-
-Run only the Verifier on the saved seeded trial:
-
-```sh
-.venv/bin/python desk.py --verify-only runs/COST_20261106T064523320138Z_seeded-eps --provider anthropic
-```
-
-This copies the report and sources into a new run and calls only the Verifier. The original is untouched. To prepare and run all three live verifier trials:
-
-```sh
-.venv/bin/python proof.py ../checkpoint-1/runs/COST_20261029T171538Z --execute --provider anthropic
-```
-
-A full run saves source documents, facts, ratios, peers, node inputs and outputs, calculator results, model usage, node order, call counts, the report, and the verified report. The verified report keeps the filings line first and places marks directly below it. Model failures do not produce a success claim. A verify-only invocation also creates a new folder. Offline outputs are named `offline-report.md`, not `verified-report.md`.
-
-## Before submission
-
-1. Complete the Investment Advisor persona's last sentence yourself.
-2. Enable a funded provider, run COST twice, then KO, and inspect saved node order and outputs. Check the source-period and price-date differences above against the lab requirements.
-3. Run the full seeded-error, invented-growth and clean-report tests. Check all eleven clean claims and ensure the Verifier cannot be skipped.
-4. Have your partner run the page, inspect one Insight source, and check two core claims against the actual filings. The partner supplies the marks. Complete your own source review.
-5. Resolve wrong and unsupported marks and any Manager failures; do not treat a file named verified-report as an automatic pass.
-6. Add the course's exact human disclosure only after the required human review. Push a reviewed commit to the course repository and submit its commit permalink to Brightspace. Nothing has been pushed or submitted by this offline build. Team formation remains a human course task.
-
-Checkpoint 2 is individual. The course lists the deadline as November 5, 2026 at 11:59 PM Eastern. Its graded deliverable is a commit permalink holding the agent team and the verifier's seeded-error marks.
-
-## References
-
-- [Week 3](https://cinderzhang.github.io/FIN67110-Fall2026/week-03/index.html)
-- [Lab 04](https://cinderzhang.github.io/FIN67110-Fall2026/week-03/lab-04-the-team.html)
-- [Lab 05](https://cinderzhang.github.io/FIN67110-Fall2026/week-03/lab-05-make-the-team-yours.html)
-- [Grading](https://cinderzhang.github.io/FIN67110-Fall2026/grading.html)
-- [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/quickstart)
-- [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
-- [Anthropic structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
-
-This is a learning exercise, not financial advice.
-AI assistance: OpenAI Codex; Python; LangGraph. Model-backed runs and human verification remain pending.
-No student or partner sign-off is asserted. Any remaining errors require review.
+This is a learning exercise, not financial advice. AI assistance: OpenAI Codex. The saved-evidence checks and AMD evaluation above are documented; no human sign-off is asserted.

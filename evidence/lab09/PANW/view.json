@@ -1,0 +1,16 @@
+{
+  "ticker": "PANW",
+  "filing_accepted_time": "2026-11-18 16:37:04",
+  "filing_accepted_source": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000030/0001327567-26-000030-index.html",
+  "filing_time": "2026-11-18 16:37:04",
+  "filing_timezone": "America/New_York",
+  "time": "2026-11-22T21:42:46.511055+00:00",
+  "original_view": {
+    "recommendation": "Hold",
+    "thesis": "The firm continues to advance its platformization strategy to simplify security architectures for customers globally.",
+    "reason": "Because comparable‑period revenue and EPS data are not disclosed and a quantified market‑share metric is missing, we cannot confirm that the latest results sustain the annual growth trajectory.",
+    "deciding_evidence_id": null
+  },
+  "direction": "not computed",
+  "reaction": "not available"
+}

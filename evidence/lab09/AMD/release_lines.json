@@ -1,0 +1,58 @@
+{
+  "revenue": [
+    {
+      "line": 22,
+      "text": "Revenue ($M) | $13,377 | $9,246 | Up 45% | $11,536 | Up 16%",
+      "context": [
+        "1",
+        "GAAP Quarterly Financial Results",
+        "| | | | | | | | | | | | | | | | |",
+        "| Q3'26 | Q3'25 | Y/Y | Q2'26 | Q/Q",
+        "Revenue ($M) | $13,377 | $9,246 | Up 45% | $11,536 | Up 16%",
+        "Gross profit ($M) | $7,210 | $4,780 | Up 51% | $6,203 | Up 16%"
+      ],
+      "source_kind": "table"
+    },
+    {
+      "line": 33,
+      "text": "Revenue ($M) | $13,377 | $9,246 | Up 45% | $11,536 | Up 16%",
+      "context": [
+        "Diluted earnings per share | $1.46 | $0.75 | Up 95% | $1.38 | Up 6%",
+        "Non-GAAP(*) Quarterly Financial Results",
+        "| | | | | | | | | | | | | | | | |",
+        "| Q3'26 | Q3'25 | Y/Y | Q2'26 | Q/Q",
+        "Revenue ($M) | $13,377 | $9,246 | Up 45% | $11,536 | Up 16%",
+        "Gross profit ($M) | $7,483 | $4,992 | Up 50% | $6,488 | Up 15%"
+      ],
+      "source_kind": "table"
+    },
+    {
+      "line": 142,
+      "text": "Net revenue | | $ | 13,377 | | | $ | 11,536 | | | $ | 9,246 | | | $ | 35,166 | | | $ | 24,369 |",
+      "context": [
+        "(Millions except per share amounts and percentages) (Unaudited)",
+        "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",
+        "| | Three Months Ended | | Nine Months Ended",
+        "| | September 26, 2026 | | June 27, 2026 | | September 27, 2025 | | September 26, 2026 | | September 27, 2025",
+        "Net revenue | | $ | 13,377 | | | $ | 11,536 | | | $ | 9,246 | | | $ | 35,166 | | | $ | 24,369 |",
+        "Cost of sales | | 5,910 | | | 5,073 | | | 4,206 | | | 15,559 | | | 12,023 |"
+      ],
+      "source_kind": "table"
+    }
+  ],
+  "diluted_eps": [
+    {
+      "line": 15,
+      "text": "SANTA CLARA, Calif. ― November 3, 2026 ― AMD (NASDAQ:AMD) today announced financial results for the third quarter of 2026. Third quarter revenue was $13.4 billion, gross margin was 54%, operating income was $2.8 billion, net income was $2.4 billion and diluted earnings per share was $1.46. On a non-GAAP(*) basis, gross margin was 56%, operating income was $3.9 billion, net income was $3.5 billion and diluted earnings per share was $2.09.",
+      "context": [
+        "AMD Investor Relations",
+        "investor.relations@amd.com",
+        "AMD Reports Third Quarter 2026 Financial Results",
+        "AMD delivers record quarter as Data Center segment revenue grows 97% year-over-year, driven by record sales of AMD Instinct GPUs and AMD EPYC CPUs",
+        "SANTA CLARA, Calif. ― November 3, 2026 ― AMD (NASDAQ:AMD) today announced financial results for the third quarter of 2026. Third quarter revenue was $13.4 billion, gross margin was 54%, operating income was $2.8 billion, net income was $2.4 billion and diluted earnings per share was $1.46. On a non-GAAP(*) basis, gross margin was 56%, operating income was $3.9 billion, net income was $3.5 billion and diluted earnings per share was $2.09.",
+        "“We delivered a record quarter with revenue exceeding the high end of our guidance as Data Center segment sales nearly doubled year-over-year,” said Dr. Lisa Su, AMD chair and CEO. “Demand for our Instinct and EPYC products continued to strengthen, and we expect growth to accelerate further in the fourth quarter as we scale Helios and ‘Venice’ production. With our leadership product portfolio and deep customer and supply chain relationships, we are confident in our ability to sustain very strong revenue growth and expanding profitability over the coming years.”"
+      ],
+      "source_kind": "narrative"
+    }
+  ]
+}

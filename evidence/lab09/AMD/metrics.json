@@ -1,0 +1,38 @@
+{
+  "operating_margin": {
+    "value": 0.10664280146655504,
+    "arithmetic": "3,694,000,000.0000 / 34,639,000,000.0000",
+    "reason": null,
+    "unit": "fraction"
+  },
+  "revenue_growth": {
+    "value": 0.3433779329067288,
+    "arithmetic": "(34,639,000,000.0000 / 25,785,000,000.0000) - 1",
+    "reason": null,
+    "unit": "fraction"
+  },
+  "return_on_average_equity": {
+    "value": 0.07191022419069895,
+    "arithmetic": "4,335,000,000.0000 / ((62,999,000,000.0000 + 57,568,000,000.0000) / 2)",
+    "reason": null,
+    "unit": "fraction"
+  },
+  "debt_to_equity": {
+    "value": 0.051143668947126145,
+    "arithmetic": "(2,348,000,000.0000 + 874,000,000.0000) / 62,999,000,000.0000",
+    "reason": null,
+    "unit": "multiple"
+  },
+  "free_cash_flow": {
+    "value": 6735000000.0,
+    "arithmetic": "7,709,000,000.0000 - 974,000,000.0000",
+    "reason": null,
+    "unit": "USD"
+  },
+  "pe": {
+    "value": null,
+    "arithmetic": "N/A / 2.6500",
+    "reason": "missing aligned inputs",
+    "unit": "multiple"
+  }
+}
